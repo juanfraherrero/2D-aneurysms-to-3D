@@ -1,0 +1,20 @@
+# define if use cuda or not
+useCuda: True
+
+# folder with training data
+folder_data_path: "/home/juan/Documentos/AAUniversidad/tesis/BrakeBalls/data/training_data"
+
+# size of the image input
+image_size: [256, 256]
+
+# how much of the data use for training and eval
+train_percentage_split: 0.8
+
+# batch_size
+batch_size: 3
+
+#batch_size
+epochs: 15
+
+# learning rate for training
+learning_rate: 0.01

@@ -1,0 +1,8 @@
+# destination of .ply and .obj
+ouput_file: "/home/juan/Documentos/AAUniversidad/tesis/BrakeBalls/results/output_256_1"
+
+# input folder with exact 4 images of anneurism
+input_folder: "/home/juan/Documentos/AAUniversidad/tesis/BrakeBalls/data/training_data/dataset1/images"
+
+# path to the weights for the model
+model_weights_path: "/home/juan/Documentos/AAUniversidad/tesis/BrakeBalls/models/model.pth"

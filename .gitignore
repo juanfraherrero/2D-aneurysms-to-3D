@@ -1,0 +1,4 @@
+data/
+model_training/
+results/
+test.py

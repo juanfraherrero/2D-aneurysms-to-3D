@@ -1,0 +1,3 @@
+[submodule "external/chamferDist"]
+	path = external/chamferDist
+	url = https://github.com/krrish94/chamferdist.git
