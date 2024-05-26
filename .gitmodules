@@ -1,3 +1,6 @@
 [submodule "external/chamferDist"]
 	path = external/chamferDist
 	url = https://github.com/krrish94/chamferdist.git
+[submodule "external/get-images-from-mesh-obj"]
+	path = external/get-images-from-mesh-obj
+	url = https://github.com/juanfraherrero/object-to-images
