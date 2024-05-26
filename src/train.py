@@ -146,7 +146,7 @@ if __name__ == '__main__':
     total_size = len(dataset)
     train_size = int(config["train_percentage_split"] * total_size)
     valid_size = total_size - train_size
-    train_dataset, eval_dataset, trash_dataset = random_split(dataset, [0.09, 0.01,0.9]) # verify if no data losses
+    train_dataset, eval_dataset, trash_dataset = random_split(dataset, [0.9, 0.1,0.0]) # verify if no data losses
     
     print(f"Total size: {total_size} Train size: {len(train_dataset)}, Validation size: {len(eval_dataset)}")
     train_loader = DataLoader(train_dataset, batch_size=config["batch_size"], shuffle=True, collate_fn=custom_collate_fn)
