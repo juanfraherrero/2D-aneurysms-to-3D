@@ -10,7 +10,7 @@ from data.loaders import ImagesDataset
 from data.customCollate import custom_collate_fn
 
 from external.chamferDist import ChamferDistance
-
+from external import ChamferDistancePy
 from utils import utils
 
 import matplotlib.pyplot as plt
@@ -25,8 +25,8 @@ def train(model, train_loader, eval_loader, epochs, charts_path, learning_rate):
 
     '''
     optimizer = optim.Adam(model.parameters(), lr=learning_rate)
-    lossFunction = ChamferDistance()
-    
+    # lossFunction = ChamferDistance()
+    lossFunction = ChamferDistancePy()
     # metrics to plot
     train_losses = []
     valid_losses = []
