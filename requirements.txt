@@ -1,6 +1,5 @@
 asttokens==2.4.1
 backcall==0.2.0
-chamferdist==1.0.3
 contourpy==1.1.1
 cycler==0.12.1
 decorator==5.1.1
