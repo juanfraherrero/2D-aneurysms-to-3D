@@ -1,20 +1,35 @@
-# define if use cuda or not
-useCuda: True
+###
+### --- Can be loaded by args
+### ---   If loaded y args are prior
+###
 
 # folder with training data
 folder_data_path: "/home/juan/Documentos/AAUniversidad/tesis/BrakeBalls/data/training_data"
 
-# size of the image input
-image_size: [256, 256]
+# folder for results
+folder_result_path: "/home/juan/Documentos/AAUniversidad/tesis/BrakeBalls/model_training/test"
 
-# how much of the data use for training and eval
+# hot much of the total data use for train (testing pourpuse)
+data_percentage_to_use: 0.01
+
+# how much of the data use for training and the rest to eval
 train_percentage_split: 0.8
 
 # batch_size
 batch_size: 3
 
-#batch_size
-epochs: 15
+# size of the image input
+image_size: 256
+
+###
+### --- Must be setted here
+###
+
+# define if use cuda or not
+useCuda: True
+
+# epochs
+epochs: 3
 
 # learning rate for training
-learning_rate: 0.01
+learning_rate: 0.001
