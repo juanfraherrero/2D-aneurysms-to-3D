@@ -16,6 +16,7 @@ from utils import utils
 import matplotlib.pyplot as plt
 from tqdm import tqdm
 import yaml
+import argparse
 
 # Function to train the model
 def train(model, train_loader, eval_loader, epochs, charts_path, learning_rate):
@@ -131,6 +132,11 @@ def train(model, train_loader, eval_loader, epochs, charts_path, learning_rate):
 
 # Código principal
 if __name__ == '__main__':
+    # quiero agregar un un argumento -td para especificar el directorio del training data
+    parser = argparse.ArgumentParser(description='Script para entrenar el modelo')
+    parser.add_argument('-td', '--training_data', type=str, help='Directorio donde se encuentran la carpeta con los datos de entrenamiento')
+    args = parser.parse_args()
+
     # load config yaml
     with open('src/config_train.yaml', 'r') as file:
         config = yaml.safe_load(file)
@@ -140,8 +146,12 @@ if __name__ == '__main__':
     else:
         useCuda = False
     print (useCuda)
+    if(parser.training_data is not None):
+        folder_path = parser.training_data
+    else:
+        folder_path = config["folder_data_path"]
     # Asumiendo que las imágenes están en 'path_to_images'
-    dataset = ImagesDataset(folder_path=config["folder_data_path"], size=config["image_size"], useCuda=useCuda)
+    dataset = ImagesDataset(folder_path=folder_path, size=config["image_size"], useCuda=useCuda)
     # Definir tamaños para entrenamiento y validación
     total_size = len(dataset)
     train_size = int(config["train_percentage_split"] * total_size)
