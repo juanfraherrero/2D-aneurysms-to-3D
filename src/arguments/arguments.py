@@ -3,6 +3,7 @@ def parseTrainArguments():
   # add -td argument to specify the training data directory
   # add -c argument to specify the configuration file
   parser = argparse.ArgumentParser(description='Script to train model')
+  parser.add_argument('-cb', '--colab', type=bool, help='if is running in colab')
   parser.add_argument('-td', '--training_data', type=str, help='Directory where is the training data')
   parser.add_argument('-c', '--config', type=str, help='file of configuration')
   parser.add_argument('-fr', '--folder_result', type=str, help='folder to save the results')

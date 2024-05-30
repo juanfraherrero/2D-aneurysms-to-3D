@@ -34,6 +34,9 @@ if __name__ == '__main__':
     # get learning rate
     learning_rate = utils.getLearningRate(config, args.learning_rate)
 
+    # get if running in colab
+    isRunningInColab = utils.getColab(config, args.colab)
+
     # Save info model in txt before training  
     model_info_path = os.path.join(models_path,'model_info.txt')
     with open(model_info_path, 'w') as file:
@@ -50,7 +53,7 @@ if __name__ == '__main__':
         
 
     # Train the model
-    train(model, train_loader, eval_loader, epochs=epochs, models_path=models_path, charts_path=charts_path, learning_rate=learning_rate)
+    train(model, train_loader, eval_loader, epochs=epochs, models_path=models_path, charts_path=charts_path, learning_rate=learning_rate, isRunningInColab=isRunningInColab)
 
     # Guardar el modelo
     torch.save(model.state_dict(), os.path.join(models_path,'model.pth'))

@@ -3,27 +3,23 @@ import os
 import sys
 import torch
 from torch import optim
-import matplotlib.pyplot as plt
 from external.chamferDistPython.chamferDistPy import ChamferDistancePy
 from utils.save_model import saveModel
 from utils.generate_chart import generateChart
 
-# tryo to import tqdm.notebook in colab or jupyter. tqdm in other cases
-try:
-    if 'ipykernel' in sys.modules:
-        from tqdm.notebook import tqdm
-    else:
-        from tqdm import tqdm
-except ImportError:
-    from tqdm import tqdm
-
 # Function to train the model
-def train(model, train_loader, eval_loader, epochs, models_path,charts_path, learning_rate):
+def train(model, train_loader, eval_loader, epochs, models_path,charts_path, learning_rate, isRunningInColab):
     '''
         Train the model with the train_loader and evaluate with eval_loader
         Use ChamferDistance as loss function
     '''
+    # define tqdm by the environment
+    if(isRunningInColab):
+        from tqdm.notebook import tqdm
+    else:
+        from tqdm import tqdm
 
+    # check if have to evaluate
     haveToEvaluate = eval_loader is not None
 
     # Adam optimizer

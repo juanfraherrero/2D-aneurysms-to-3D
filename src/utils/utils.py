@@ -80,11 +80,10 @@ def getLoaders(training_path, config, useCuda, data_percentage_to_use,train_perc
   #get percentage of data to use in training and validation  
   train_percentage, valid_percentage, trash_percentage, total_size = getDatasetSizePercentage(dataset, config, data_percentage_to_use, train_percentage_split)
 
-  print(train_percentage, valid_percentage, trash_percentage, total_size)
   # get datasets splitted
   train_dataset, eval_dataset, trash_dataset = random_split(dataset, [train_percentage, valid_percentage, trash_percentage])
   
-  print(f"Original size: {len(dataset)} \nTotal size: {total_size} \nTrain size: {len(train_dataset)} \nValidation size: {len(eval_dataset)}")
+  print(f"Original dataset size: {len(dataset)} \nTotal dataset size: {total_size} \nTrain dataset size: {len(train_dataset)} \nValidation dataset size: {len(eval_dataset)}")
 
   bs = getBatchSize(config, batch_size)
 
@@ -185,3 +184,13 @@ def getLearningRate(config, learning_rate):
   else:
     learning_rate = config["learning_rate"]
   return learning_rate
+
+def getColab(config, colab):
+  """
+    Get if running in colab
+  """
+  if(colab is not None):
+    isRunningInColab = colab
+  else:
+    isRunningInColab = config["colab"]
+  return isRunningInColab

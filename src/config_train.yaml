@@ -29,3 +29,6 @@ epochs: 5
 
 # learning rate for training
 learning_rate: 0.001
+
+# if running in colab
+colab: False
