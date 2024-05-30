@@ -38,7 +38,7 @@ def train(model, train_loader, eval_loader, epochs, models_path,charts_path, lea
     model.train()
     for epoch in range(epochs):        
         # bucle to train the model
-        progress_bar_train = tqdm(total=len(train_loader), desc='Processing training batches', unit='batch', leave=False)
+        # progress_bar_train = tqdm(total=len(train_loader), desc='Processing training batches', unit='batch', leave=False)
         train_loss = 0
         for data, target in train_loader:
 
@@ -68,10 +68,10 @@ def train(model, train_loader, eval_loader, epochs, models_path,charts_path, lea
             optimizer.step() 
             
             train_loss += batch_loss.item() # Add the loss to the total loss
-            progress_bar_train.update(1)
+            # progress_bar_train.update(1)
         
         # close the progress bar 
-        progress_bar_train.close()
+        # progress_bar_train.close()
         
         # average loss per epoch
         train_losses.append(train_loss / len(train_loader))
@@ -83,7 +83,7 @@ def train(model, train_loader, eval_loader, epochs, models_path,charts_path, lea
             model.eval()
             # avoid change gradients
             with torch.no_grad():     
-                progress_bar_eval = tqdm(total=len(eval_loader), desc='Processing eval batches', unit='batch', leave=False)
+                # progress_bar_eval = tqdm(total=len(eval_loader), desc='Processing eval batches', unit='batch', leave=False)
                 
                 valid_loss = 0
                 
@@ -106,10 +106,10 @@ def train(model, train_loader, eval_loader, epochs, models_path,charts_path, lea
                     
                     valid_loss += batch_loss.item() # Add the loss to the total loss
 
-                    progress_bar_eval.update(1)
+                    # progress_bar_eval.update(1)
                 
                 # close the progress bar
-                progress_bar_eval.close()
+                # progress_bar_eval.close()
 
                 # average loss per epoch
                 valid_losses.append(valid_loss / len(eval_loader))
