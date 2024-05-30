@@ -60,6 +60,7 @@ def setCudaIsAvailable(config, use_cuda):
     useCuda = False
       
   print ("Using Cuda: ",useCuda)
+  return useCuda
   
 
 def getLoaders(training_path, config, useCuda, data_percentage_to_use,train_percentage_split, batch_size, image_size):
