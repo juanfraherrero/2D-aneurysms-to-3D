@@ -50,7 +50,7 @@ if __name__ == '__main__':
         
 
     # Train the model
-    train(model, train_loader, eval_loader, epochs=epochs, charts_path=charts_path, learning_rate=learning_rate)
+    train(model, train_loader, eval_loader, epochs=epochs, models_path=models_path, charts_path=charts_path, learning_rate=learning_rate)
 
     # Guardar el modelo
     torch.save(model.state_dict(), os.path.join(models_path,'model.pth'))
