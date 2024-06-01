@@ -185,6 +185,26 @@ def getLearningRate(config, learning_rate):
     learning_rate = config["learning_rate"]
   return learning_rate
 
+def getResumeEpoch(config, resume_training):
+  """
+    Get the start epoch
+  """
+  if(resume_training is not None):
+    resume_training = resume_training
+  else:
+    resume_training = config["resume_training"]
+  return resume_training
+
+def getCheckpointPath(config, checkpoint_path):
+  """
+    Get the path to the checkpoint
+  """
+  if(checkpoint_path is not None):
+    checkpoint_path = checkpoint_path
+  else:
+    checkpoint_path = config["checkpoint_path"]
+  return checkpoint_path
+
 def getColab(config, colab):
   """
     Get if running in colab
@@ -194,3 +214,13 @@ def getColab(config, colab):
   else:
     isRunningInColab = config["colab"]
   return isRunningInColab
+
+def getProfiling(config, profiling):
+  """
+    Get if profiling
+  """
+  if(profiling is not None):
+    profiling = profiling
+  else:
+    profiling = config["profiling"]
+  return profiling
