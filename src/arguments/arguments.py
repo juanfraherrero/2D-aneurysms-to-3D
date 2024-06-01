@@ -14,5 +14,8 @@ def parseTrainArguments():
   parser.add_argument('-e', '--epochs', type=int, help='number of epochs')
   parser.add_argument('-lr', '--learning_rate', type=float, help='learning rate')
   parser.add_argument('-uc', '--use_cuda', type=bool, help='use cuda')
+  parser.add_argument('-rt', '--resume_training', type=bool, help='start epoch')
+  parser.add_argument('-cp', '--checkpoint_path', type=str, help='path to checkpoint')
+  parser.add_argument('-p', '--profiling', type=bool, help='profiling')
   return parser.parse_args()
 

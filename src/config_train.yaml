@@ -10,25 +10,34 @@ folder_data_path: "/home/juan/Documentos/AAUniversidad/tesis/BrakeBalls/data/tra
 folder_result_path: "/home/juan/Documentos/AAUniversidad/tesis/BrakeBalls/model_training/test"
 
 # hot much of the total data use for train (testing pourpuse)
-data_percentage_to_use: 0.001
+data_percentage_to_use: 0.0005
 
 # how much of the data use for training and the rest to eval
 train_percentage_split: 0.8
 
 # batch_size
-batch_size: 3
+batch_size: 1
 
 # size of the image input
 image_size: 256
 
 # define if use cuda or not
-useCuda: True
+useCuda: false
 
 # epochs
-epochs: 5
+epochs: 2
 
 # learning rate for training
 learning_rate: 0.001
 
 # if running in colab
-colab: False
+colab: false
+
+# if resume training
+resume_training: false
+
+# checkpoint path
+checkpoint_path: "/home/juan/Documentos/AAUniversidad/tesis/BrakeBalls/model_training/test/train3/model/model_epoch3.tar"
+
+# profiling?
+profiling: true
