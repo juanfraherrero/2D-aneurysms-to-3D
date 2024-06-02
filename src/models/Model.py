@@ -7,7 +7,7 @@ class CombinedImagesAutoencoder(nn.Module):
         
         # Encoder
         self.encoder = nn.Sequential(
-            # input is 4 imágenes de 1(b&w)-- 12 canales x 256(height) x 256(witdh), 
+            # input is 4 imágenes de 1(b&w)-- 4 canales x 256(height) x 256(witdh), 
             
             nn.Conv2d(4, 32, 3, stride=2, padding=1),  # output is 32 x 128 x 128
             nn.ReLU(), 
@@ -18,26 +18,19 @@ class CombinedImagesAutoencoder(nn.Module):
             nn.ReLU(),
             nn.Conv2d(128, 512, 3, stride=2, padding=1), # output is 512 x 8 x 8
             nn.ReLU(),
-            nn.Conv2d(512, 2048, 3, stride=2, padding=1), # output is 2048 x 4 x 4
-            nn.ReLU(),
             # batch normalization could be applied here
             nn.Flatten(),
-            nn.Linear(2048*4*4, 4096),
+            nn.Linear(512*8*8, 4096),
             nn.ReLU(),
             nn.Linear(4096, 2048),
             nn.ReLU(),
             nn.Linear(2048, 1024), 
-            nn.ReLU(),
-            nn.Linear(1024, 256),  # This will be the encoded representation
         )
         
         # Decoder para nube de puntos
         self.point_cloud_decoder = nn.Sequential(
-            nn.Linear(256, 512),
+            nn.Linear(1024, 2048),
             nn.ReLU(),
-            nn.Linear(512, 2048),
-            nn.ReLU(),
-            nn.Dropout(0.4), 
             nn.Linear(2048, 4500),  # Produce 3 valores (x, y, z) para cada uno de los puntos 1500 puntos
             nn.Tanh()  # Normaliza los valores entre -1 y 1
         )
