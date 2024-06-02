@@ -6,9 +6,15 @@ from torch import optim
 from external.chamferDistPython.chamferDistPy import ChamferDistancePy
 from utils.save_model import saveModel
 from utils.generate_chart import generateChart
+from utils.loadCheckpoint import loadCheckpoint 
+from utils.zeroGradients import zeroGradients
+from utils.getPrediction import getPrediction
+from utils.calculateLoss import calculateLoss
+from utils.calculate_backpropagation_step import calculateBackpropagationStep
+import torch.autograd.profiler as profiler
 
 # Function to train the model
-def train(model, train_loader, eval_loader, epochs, models_path,charts_path, learning_rate, isRunningInColab):
+def train(model, train_loader, eval_loader, epochs, models_path,charts_path, learning_rate, isRunningInColab, resume_training, checkpoint_path, useCuda):
     '''
         Train the model with the train_loader and evaluate with eval_loader
         Use ChamferDistance as loss function
@@ -22,52 +28,54 @@ def train(model, train_loader, eval_loader, epochs, models_path,charts_path, lea
     # check if have to evaluate
     haveToEvaluate = eval_loader is not None
 
-    # Adam optimizer
-    optimizer = optim.Adam(model.parameters(), lr=learning_rate)
-
-    # lossFunctio
+    # lossFunction
     lossFunction = ChamferDistancePy()
 
     # metrics to plot
     train_losses = []
     valid_losses = []
 
-    progress_bar_epochs = tqdm(range(epochs), desc='Processing data in epochs', unit="Epoch", leave=True)
+    start_epoch = 0
+    
+    # check if have to resume training
+    if(resume_training):
+        model, optimizer_checkpoint, start_epoch, train_losses, valid_losses  = loadCheckpoint(model, checkpoint_path)
+        print(f"Resume training from epoch {start_epoch} to epoch {epochs}")
+
+    # move the model to cuda if available
+    if(useCuda):
+        model = model.to('cuda')
+    
+    # Adam optimizer
+    optimizer = optim.Adam(model.parameters(), lr=learning_rate)
+
+    if(resume_training):
+        # if resume training, load the optimizer state
+        optimizer.load_state_dict(optimizer_checkpoint)
+
+    progress_bar_epochs = tqdm(range(start_epoch, epochs), desc='Processing data in epochs', unit="Epoch", leave=True, initial=start_epoch)
 
     # TRAINING
     model.train()
-    for epoch in range(epochs):        
+    for epoch in range(start_epoch, epochs):        
         # bucle to train the model
         # progress_bar_train = tqdm(total=len(train_loader), desc='Processing training batches', unit='batch', leave=False)
         train_loss = 0
         for data, target in train_loader:
 
             # Clean gradients
-            optimizer.zero_grad() 
+            zeroGradients(optimizer)
 
             # Get predictions
-            output = model(data)
+            output = getPrediction(model, data)
 
-            # Cicle over the batch size and calculate loss
-            batch_loss = 0
+            # Calculate loss, backpropagation and update weights
+            batch_loss = calculateLoss(output, target, lossFunction, optimizer)
 
-            for idx in range(len(target)):
-                # Add one dimension to target and ouput --- here can be parallelized¿?
-                tg = target[idx].unsqueeze(0) 
-                out = output[idx].unsqueeze(0)
-                batch_loss += lossFunction(tg, out)
-            
-            # Average loss in batch
-            batch_loss /= len(target) 
-
-
-            # Calculate gradients
-            batch_loss.backward() 
-            
-            # Update weights
-            optimizer.step() 
+            calculateBackpropagationStep(optimizer, batch_loss)
             
             train_loss += batch_loss.item() # Add the loss to the total loss
+            
             # progress_bar_train.update(1)
         
         # close the progress bar 
@@ -90,19 +98,11 @@ def train(model, train_loader, eval_loader, epochs, models_path,charts_path, lea
                 # Cicles for each batch in eval
                 for data, target in eval_loader:
                     
-                    # get predictions
-                    output = model(data)
+                    # Get predictions
+                    output = getPrediction(model, data)           
 
-                    batch_loss = 0
-                    # cicle over the batch size
-                    for idx in range(len(target)):
-                        # add one dimension to target and ouput  --- here can be parallelized
-                        tg = target[idx].unsqueeze(0) 
-                        out = output[idx].unsqueeze(0)
-                        batch_loss += lossFunction(tg, out)
-                    
-                    # average loss in batch 
-                    batch_loss /= len(target) 
+                    # Calculate loss, backpropagation and update weights
+                    batch_loss = calculateLoss(output, target, lossFunction, optimizer)
                     
                     valid_loss += batch_loss.item() # Add the loss to the total loss
 
@@ -121,8 +121,9 @@ def train(model, train_loader, eval_loader, epochs, models_path,charts_path, lea
         # update the progress bar
         progress_bar_epochs.update(1)
 
-        saveModel(model, models_path, epoch)
-        generateChart(charts_path, train_losses, valid_losses, epoch)
+        if(epoch % 5 == 0):
+            saveModel(model, optimizer, models_path, epoch, train_losses, valid_losses)
+            generateChart(charts_path, train_losses, valid_losses, epoch)
     
     # end the progress bar
     progress_bar_epochs.close()
