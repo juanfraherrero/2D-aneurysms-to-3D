@@ -60,6 +60,7 @@ if __name__ == '__main__':
         file.write("Epochs: "+ str(epochs) +"\n")
 
     if profiling:
+        print("Porfiling")
         if(useCuda):
             model.to('cuda')
         
