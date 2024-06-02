@@ -22,10 +22,10 @@ batch_size: 1
 image_size: 256
 
 # define if use cuda or not
-useCuda: false
+useCuda: true
 
 # epochs
-epochs: 2
+epochs: 5
 
 # learning rate for training
 learning_rate: 0.001
@@ -40,4 +40,4 @@ resume_training: false
 checkpoint_path: "/home/juan/Documentos/AAUniversidad/tesis/BrakeBalls/model_training/test/train3/model/model_epoch3.tar"
 
 # profiling?
-profiling: true
+profiling: false
