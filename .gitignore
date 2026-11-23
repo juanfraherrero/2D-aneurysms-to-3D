@@ -1,4 +1,8 @@
-/data/
-model_training/
-results/
-test.py
+__pycache__/
+*.pyc
+.venv/
+data/
+runs/
+*.pt
+*.pth
+*.ply
